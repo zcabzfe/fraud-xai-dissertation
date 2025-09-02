@@ -1,0 +1,99 @@
+{
+  "seed": 0,
+  "split": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15,
+    "sorted_by": "TransactionDT"
+  },
+  "preprocess": {
+    "keep_numeric_NaN": true,
+    "missing_indicator_threshold": 0.2,
+    "categorical_encoding": "frequency-encoding (fit on TRAIN only; unseen\u21920)",
+    "rare_cat_min": 100,
+    "time_features": [
+      "DT_day",
+      "DT_week",
+      "DT_hour"
+    ]
+  },
+  "model": {
+    "type": "xgboost.train (tree_method='hist')",
+    "params": {
+      "objective": "binary:logistic",
+      "eval_metric": [
+        "auc",
+        "aucpr"
+      ],
+      "eta": 0.05,
+      "max_depth": 6,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "lambda": 1.0,
+      "max_delta_step": 1,
+      "scale_pos_weight": 27.434310083918007,
+      "tree_method": "hist"
+    },
+    "scale_pos_weight": 27.434310083918007,
+    "eval_metric_logged": [
+      "auc",
+      "aucpr"
+    ],
+    "early_stopping_rounds": 300,
+    "early_stopping_target": "validation aucpr (last metric, last eval set)",
+    "best_round": 4978,
+    "best_val_aucpr": 0.6057558539075464,
+    "calibration": "sklearn_isotonic"
+  },
+  "test_metrics": {
+    "pr_auc": 0.511714846476448,
+    "roc_auc": 0.8802346029881354,
+    "recall_at_fpr_0p5pct": 0.38209536166072006,
+    "brier": 0.022257257609415056
+  },
+  "xai": {
+    "N_instances": 30,
+    "min_positives_target": 20,
+    "selection_file": "artifacts/explain_sel_idx.npy",
+    "SHAP": "TreeExplainer (probability_mode, bar-summary saved)",
+    "LIME": {
+      "discretize_continuous": false,
+      "sample_around_instance": true,
+      "num_features": "min(50, d)",
+      "num_samples": 2000
+    },
+    "quantus_metrics": [
+      "FaithfulnessCorrelation (subset\u224810% of D, baseline='mean', per-instance)"
+    ],
+    "custom_metrics": [
+      "Effective-K@80% (conciseness)",
+      "Latency (sec/instance)"
+    ]
+  },
+  "files_out": {
+    "data_card": "artifacts/data_card.csv",
+    "fraud_drift": "artifacts/fraud_rate_by_week.csv",
+    "plots": [
+      "artifacts/missingness_top20.png",
+      "artifacts/fraud_rate_week.png",
+      "artifacts/pr_curve.png",
+      "artifacts/roc_curve.png",
+      "artifacts/calibration_curve.png",
+      "artifacts/learning_curve_val_aucpr.png",
+      "artifacts/shap_summary_bar.png",
+      "artifacts/box_fidelity.png",
+      "artifacts/diff_fidelity.png",
+      "artifacts/box_conciseness.png",
+      "artifacts/diff_conciseness.png",
+      "artifacts/box_latency.png",
+      "artifacts/diff_latency.png"
+    ],
+    "xai_metrics_per_instance": "artifacts/xai_metrics_per_instance.csv",
+    "wilcoxon_summary": "artifacts/wilcoxon_summary.csv"
+  },
+  "env": {
+    "numpy": "1.26.4",
+    "torch": "2.2.2",
+    "quantus": "0.6.0"
+  }
+}

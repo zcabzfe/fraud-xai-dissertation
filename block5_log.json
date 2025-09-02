@@ -1,0 +1,27 @@
+{
+  "scale_pos_weight": 27.434310083918007,
+  "params": {
+    "objective": "binary:logistic",
+    "eval_metric": [
+      "auc",
+      "aucpr"
+    ],
+    "eta": 0.05,
+    "max_depth": 6,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "lambda": 1.0,
+    "max_delta_step": 1,
+    "scale_pos_weight": 27.434310083918007,
+    "tree_method": "hist"
+  },
+  "best_round": 4978,
+  "best_val_aucpr": 0.6057558539075464,
+  "calibration_mode": "sklearn_isotonic",
+  "test_metrics": {
+    "pr_auc": 0.511714846476448,
+    "roc_auc": 0.8802346029881354,
+    "recall_at_fpr_0p5pct": 0.38209536166072006,
+    "brier": 0.022257257609415056
+  }
+}
